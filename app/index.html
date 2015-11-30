@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" type="text/css" href='bower_components/bootstrap/dist/css/bootstrap.css'>
+
+</head>
+<body ng-app='myApp'>
+<h4 ng-controller="dayCtrl" highlight="Wednesday">Today is {{Day ||"(unknown)" | dayName}}</h4>
+<h4 ng-controller="tomorrowCtrl">
+  Tomorrow is {{tomorrow || "(unknown)" | dayName}}
+</h4>
+<div class="panel"ng-controller="defaultCtrl">
+      <h4 clss="panel-header">Todo app</h4>
+      <label class="well">The first element is {{todo[0].action}}</label>
+      There are <span class="ng-bind: todo.length"> items</span>
+      <label for="input">Display the categories</label>
+      <input type='text'id="input"ng-model="todo[0].action"class='form-control'>
+ </div> 
+ <div class="well"ng-controller="defaultCtrl">
+ <div class="checkbox">
+  <label>
+    <input type="checkbox"ng-model="showlist">
+    use checkbox for view
+  </label>
+  </div>
+   <div ng-include="viewFile()"onload="reportChange()"></div>
+
+ </div>
+ <div ng-controller="defaultCtrl">
+     <div class="well">
+        <div class="radio"ng-repeat="button in ['None','Table','List']">
+            <label>
+              <input type="radio"ng-model="data.mode"ng-checked="$first"
+              value="{{button}}">{{button}}
+            </label>
+        </div>
+     </div>
+ <div ng-switch on="data.mode">
+  <div ng-switch-when="Table">
+      <table class="table table-striped table-bordered">
+          <thead>
+              <tr>
+                <th>#</th><th>Action</th><th>Done</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="item in todo"ng-class="$odd ? 'odd' : 'even'">
+                <td>{{$index}}</td>
+                <td ng-repeat="prop in item">{{prop}}</td>
+              </tr>
+          </tbody>
+      </table>  
+  </div>
+  <div ng-switch-when="List">
+      <ol>
+          <li ng-repeat="item in todo">
+            {{item.action}}<span ng-if="item.complete"> (Done)</span>
+          </li>
+      </ol> 
+  </div>
+  <div ng-switch-default>
+    <div class="well">
+        Try select another one!
+    </div>
+  </div>
+ </div>
+</div>
+<div ng-controller="defaultCtrl">
+<style>
+  td span {font-weight: bold;}
+</style>
+<div class="checkbox">
+  <label>
+      <input type="checkbox"ng-model="todo[2].complete">
+      Check item 3
+  </label>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>#</th><th>Action</th><th>Done</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in todo">
+      <td>{{$index + 1}}</td>
+      <td>{{item.action}}</td>
+      <td>
+          <span ng-hide="item.complete">(Incomplete)</span>
+          <span ng-show="item.complete">(Done)</span>
+      </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+<div ng-controller="defaultCtrl">
+<style>
+    .Red{background-color: lightcoral}
+    .Green{background-color: lightgreen}
+    .Blue{background-color: lightblue}
+</style>
+<div class="row well">
+  <div class="col-xs-6"ng-repeat="(key, value) in settings">
+      <h4>{{key}}</h4>
+      <div class="radio"ng-repeat="button in buttonColor">
+          <label>
+              <input type="radio"ng-model="settings[key]"
+              value="{{button}}">{{button}}
+          </label>
+      </div>
+  </div>
+</div>
+<div class="table">
+  <table class="table">
+  <thead>
+      <tr>
+        <th>#</th><th>Action</th><th>Done</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr ng-repeat="item in todo"ng-class-even="settings.Rows"ng-class-odd="settings.Columns">
+          <td>{{$index}}</td>
+          <td>{{item.action}}</td>
+          <td>
+              {{item.complete}}
+          </td>
+      </tr>
+  </tbody>
+  </table>
+
+</div>
+    <div class="well">
+      <span ng-repeat='button in buttonColor'>
+          <button class="btn btn-info"ng-click='data.rowColor = button'>{{button}}</button>
+      </span>
+    </div>
+    <table class="table">
+      <thead>
+          <tr>
+              <th>#</th><th>Action</th><th>Done</th>
+          </tr> 
+      </thead>
+        <tbody>
+            <tr ng-repeat="item in todo"ng-class="data.rowColor"
+            ng-mouseenter="handleEvent($event)"
+            ng-mouseleave="handleEvent($event)">
+              <td>{{$inex +1}}</td>
+              <td>{{item.action}}</td>
+              <td ng-class="data.columnColor">{{item.complete}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="todoPanel"class="panel" ng-controller="defaultCtrl">
+    <div class="well" tap="message = 'Tapped!'">
+        {{message}}
+    </div>
+</div>
+<div class="well" ng-controller="defaultCtrl">
+  <label>
+      <input type="checkbox"ng-model="dataValue">
+      Check a value
+  </label>
+  <button ng-disabled="dataValue" class="btn btn-success">Click me</button>
+
+</div>
+<div ng-controller="defaultCtrl">
+  <div class="row">
+    <div class="col-xs-6">
+        <div class="well">
+          <div class="form-group">
+          <label for="actionf">Acion:</label>
+            <input type="text"class="form-control"id="actionf"
+            ng-model="newTodo.actions">
+           </div>
+           <div class="form-group">
+            <label for="actionLocation">Location:</label>
+            <select class="form-control"id="actionLocation"ng-model="newTodo.location">
+              <option>Home</option>
+              <option>Office</option>
+              <option>Mail</option>
+            </select>
+           </div>
+          <button class="btn btn-primary btn-block"ng-click="addItem(newTodo)">Add</button>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="page-header">
+          To do list
+            <span class="label label-info">
+              {{(todo | filter:{complete:'true'}).length}}
+            </span>
+        </div>
+
+        <table class="table">
+          <thead>
+              <tr>
+                  <th>#</th><th>Action</th><th>Done</th>
+              </tr>
+          </thead>
+          <tbody>
+        <tr ng-repeat="item in todo">
+            <td>{{$index +1}}</td>
+            <td>{{item.action}}</td>
+            <td>
+                <input type="checkbox"ng-model="item.complete">
+            </td>
+        </tr>
+          </tbody>
+    </table>
+  </div>
+</div>
+</div>
+<div ng-controller="defaultCtrl" id="todoPanel"class="panel">
+<form ng-submit="addUser(addValue)"novalidate ng-class="showValidation ? 'validate' : ''" name="myForm">
+    <div class="well">
+        <div class="form-group">
+          <label for="name">Name</label>
+            <input type="text"ng-model="addValue.name" id="name"requierd class="form-control"name="userName">
+        </div>
+        <div class="group-control">
+            <label for="email">Email</label>
+              <input type="email"class="form-control"id="email"ng-model="addValue.email"name="userEmail" required>
+            <div class='error'ng-show="showValidation">
+              {{getValidation(myForm.userEmail.$error)}}
+            </div>
+            <div class="success"ng-show="myForm.userEmail.$valid">
+                E-mail is correct
+            </div>
+        </div>
+
+        <div class="checkbox">
+          <label>
+          <input type="checkbox"ng-model="addValue.agreed" required>
+          Please check if you agree with term and conditions
+          </label>
+        </div>
+        <button type='submit' class="btn btn-primary btn-block">Ok</button>
+    </div>
+ 
+    <div class="well">
+      <label>
+          Form : {{poraka}}
+          <span class="summary"
+          ng-class="myForm.$invalid ? 'ng-invalid':'ng-valid'">
+                {{myForm.$valid}}
+          </span>
+      </label>
+    </div>
+</form>
+
+
+</div>
+<div class="panel"ng-controller="defaultCtrl"id="todoPanel">
+  <form name="myForm"novalidate>
+      <div class="well">
+          <div class="form-group">
+          <label>Text:</label>
+            <textarea name="sample"ng-required="requireValue"cols="40"rows="3"
+            ng-minlength="3"ng-maxlength="10"ng-pattern="matchPattern"
+            ng-model="textValue"></textarea>
+          </div>
+      </div>
+      <div class="well">
+          <p>Require Error:{{myForm.sample.$error.required}}</p>
+          <p>Min length Error:{{myForm.sample.$error.minlength}}</p>
+          <p>Max length Error: {{myForm.sample.$error.maxlength}}</p>
+          <p>Pattern Error : {{myForm.sample.$error.pattern}}</p>
+          <p>Element Valid: {{myForm.sample.$valid}}</p>
+      </div>
+  </form>
+
+</div>
+<div class="checkbox"ng-controller="defaultCtrl">
+  <form name="myForm" novalidate>  
+    <div class="well">
+      <div class="checkbox">
+        <label>
+            <input type="checkbox" name="sample" ng-model="inputValue" ng-true-value="riste"
+             ng-false-value="spaseski">
+            This is checkbox
+        </label>  
+      </div>
+    </div>
+    <div clas="well">
+      <p>This is status:{{inputValue}}</p>
+    </div>  
+
+  </form>
+</div>
+<div class="panel"ng-controller="defaultCtrl">
+  <form name="myForm" novalidate>
+      <div class="well">
+        <div class="form-group">
+          <label>This is label</label>
+          <select ng-model="selectValue" ng-options="item.action for item in todo">
+          
+          </select>
+        </div>
+      </div>
+      <div class="well">
+        <p>select value:{{selectValue || 'None'}}</p>
+      </div>
+  </form>
+</div>
+<div id="todoPanel"class="panel"ng-controller="defaultCtrl">
+<form name='myForm'novalidate>
+  <div class="well">
+      <div class="form-group">
+          <label>Select a value</label>
+          <select ng-model="selectValue"ng-options="item.id as item.action group by item.place for item in todo">
+              <option value="">(Pick one)</option>
+          </select>
+      </div>
+      <div class="well">
+          <p>{{selectValue || "none"}}</p>
+      </div>
+  </div>
+</form>
+</div>
+<div class="well"ng-controller="defaultCtrl">
+  <div clas="well">
+    <div class="form-group">
+        <select ng-options="country for country in countryes"ng-model="country"></select>
+    </div>
+  </div>
+  <p>{{country}}</p>
+  <p>{{getCountry(country)}}</p>
+</div>
+<div ng-controller="topLevelCtrl">
+<div>
+  <div class="well">
+    <div class="input-group">
+      <span class="input-group-btn">
+          <button class="btn btn-default"type="button"ng-click="revereseText()">Reverse</button>
+          <button class="btn btn-default"type="button"ng-click="changeCase()">ChangeCase</button>
+      </span>
+      <input class="form-control"ng-model="dataValue">
+    </div>
+
+  </div>
+</div>
+
+<div ng-controller="firstChildCtrl">
+  <div class='well'>
+    <h4>First Child Ctrl</h4>
+    <div class="input-group">
+        
+          <span class="input-group-btn">
+              <button class="btn btn-default"type="button"ng-click="reverseText()">Reverse</button>
+              <button class="btn btn-default"type="button"ng-click="changeCase()">Case</button>
+          </span>
+        <input ng-model="dataValue" class="form-control">
+    </div>
+  </div>
+</div>
+<div ng-controller="secondChildCtrl">
+  <div class="well">
+    <div class="input-group">
+      <span class="input-group-btn">
+          <button class="btn btn-default"type="button"ng-click="revereseText()">Reverse</button>
+          <button class="btn btn-default"type="button"ng-click="changeCase()">ChangeCase</button>
+          <button class="btn btn-default"type="button"ng-click="shiftFour()">Shift</button>
+      </span>
+      <input class="form-control"ng-model="dataValue">
+    </div>
+
+  </div>
+</div>
+</div>
+<script type="text/javascript"scr="bower_components/jquery/jquery-ui.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript"src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript"src="filters/customFilter.js"></script>
+<script>
+  $(document).ready(function(){
+    $('#jqui button').button().click(function(e){
+      angular.element(angularRegion).scope().$apply('handleClick()');
+    })
+  })
+
+</script>
+<div id="angularRegion"class="well" ng-controller="simpleCtrl">
+<h4>nagular js</h4>
+<div class="checkbox">
+    <label>
+       <input type="checkbox"ng-model="buttonEnabled">
+       Enable Button
+    </label>  
+
+</div>
+Click Counter: {{clickCounter}}
+</div>
+<div id="jqui" class="well">
+  <h4>Jquery Ui</h4>
+  <button>Click Me!</button>
+</div>
+<div ng-controller="simpleCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>
+                Products
+                <span class="label label-primary">{{products.length}}</span>
+            </h3>
+        </div>
+        <div class="pamel-body">
+          Limit:<select ng-options="item for item in limitRange"ng-model="limitVal"></select>
+
+        </div>
+        <div class="panel-body">
+            <button class="btn btn-primary"ng-click="incrementPrice()">Increment</button>
+        </div>
+
+
+        <div class="panel-body">
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <td>json</td>
+                        <td>Name</td>
+                        <td>Category</td>
+                        <td>Expiry</td>
+                        <td class="text-right">Price</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="p in products | take:2:5 ">
+                        <td colspan="1">{{p | json}}</td>
+                        <td>{{p.name | labelCase}}</td>
+                        <td>{{p.category | labelCase:true}}</td>
+                        <td>{{getExpireDay(p.expiry) | date:"dd MMM yyyy"}}</td>
+                        <td class="text-right">{{p.price | currency:"$"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div ng-controller="simpleCtrl">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+          This is heading
+      </div>
+      <button class="btn btn-primary"ng-click='incrementPrice()'>Change Price</button>
+    </div>
+    <div unordered-list="products" lsit-property=" price | currency"></div>
+</div>
+
+<!-- this is a filter applied -->
+<div ng-controller="simpleCtrl">
+  <input ng-model="data.message">
+  <label>{{data.message|reverse}}</label>
+</div>
+<input ng-model='val1' ui-mask="mask1">
+<label>{{val1}}</label>
+<div superhero spiderman></div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-ui-mask/dist/mask.js"></script>
+  <script src="controllers/controllers.js"></script>
+  <script src="filters/filters.js"></script>
+  <script src="directives/directives.js"></script>
+  <script src="app.js"></script>
+  <script src="view1/view1.js"></script>
+  <script src="view2/view2.js"></script>
+  <script src="components/version/version.js"></script>
+  <script src="components/version/version-directive.js"></script>
+  <script src="components/version/interpolate-filter.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="controllers/exampleCtrl.js"></script>
+</body>
+</html>

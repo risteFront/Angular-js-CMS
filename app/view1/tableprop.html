@@ -1,0 +1,17 @@
+<table class="table table-striped table-bordered"ng-controller="defaultCtrl">
+  <thead>
+      <tr>
+        
+        <th>#</th><th>Item</th><th>Done</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in todo">
+      <td>{{$index + 1}}</td>
+      <td ng-repeat="prop in item">{{prop}}</td>
+    </tr>
+    
+
+  </tbody>
+
+ </table>

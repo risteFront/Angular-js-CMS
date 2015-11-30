@@ -1,0 +1,48 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+.odd{
+  background-color: lightcoral;
+}
+.even{
+  background-color: lavenderblush;
+}
+.summary.ng-invalid{
+  color:red;
+  font-weight: bold;
+}
+.summary.ng-valid{
+  color: green;
+}
+form .ng-valid.ng-dirty{background-color: lightgreen}
+form.validate.ng-invalid-email.ng-dirty{background-color: lightgoldenrodyellow}
+form.validate.ng-invalid-required.ng-dirty{background-color: lightpink}
+div.error{color: red;font-weight: bold;}
+div.success{color: green;font-weight: bold;}
